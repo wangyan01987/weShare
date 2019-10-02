@@ -1,0 +1,22 @@
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  font-size:68.125%;
+}
+body{
+  font-size:14px;
+}
+.ant-modal-wrap{
+  overflow: hidden;
+}
+.ant-modal{
+  top:20px;
+  padding-bottom:0;
+  height:95%;
+  overflow: auto;
+}
