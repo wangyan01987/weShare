@@ -2,14 +2,14 @@
   <div class="container">
    <p class="changeItem"><img src="../../assets/images/zhanshi@2x.png" alt=""><img src="../../assets/images/suolue@2x.png" alt=""></p>
     <div class="box">
-         <div class="box-wrapper" v-for="item in itemList">
+         <div class="box-wrapper" v-for="item in itemList" @click="goToDetail(item.id)">
            <div class="box-item">
              <div class="item-img" >
                <img :src="item.img" style="width:100%;height:100%;"/>
                <p class="item-title" :title="item.title">{{item.title}}</p>
              </div>
              <p class="editor" v-show="item.isEdit">
-               <img src="../../assets/images/bianji@2x.png" alt="编辑" @click="editItem(item.id)">
+               <img src="../../assets/images/bianji@2x.png" alt="编辑" @click="editItem(item.id,$event)">
                <img src="../../assets/images/shanchu@2x.png" alt="删除" @click="deleteItem(item.id)">
              </p>
            </div>
@@ -126,14 +126,17 @@
         }
       },
       methods: {
+        goToDetail(id){
+
+          this.$router.push({name:'projectDetail',params:{projectId:id}});
+        },
         loadItem() {
           //获取新的数据
           this.itemList=this.itemList.concat(this.addItemList);
-
-
         },
-        editItem(id){
+        editItem(id,e){
           //编辑信息 flag=1
+          e.stopPropagation();
          this.$refs.projectform.visible=true;
          this.dataflag=1;
 

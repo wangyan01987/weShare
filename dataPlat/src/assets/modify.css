@@ -20,3 +20,9 @@ body{
   height:95%;
   overflow: auto;
 }
+.ant-menu-horizontal{
+  padding-left:5.4rem;
+}
+.ant-layout-content{
+  text-align:left;
+}

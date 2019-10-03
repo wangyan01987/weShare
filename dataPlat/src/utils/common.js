@@ -159,9 +159,9 @@ export function isName(val){
   return reg.test(str);
 }
 //项目编号
-export function isproNum(val){
+export function isNum(val){
   let str=val.trim();
-  let reg=/^[\w+]{6-20}$/;
+  let reg=/^[\w+]{6,20}$/;
   return reg.test(str);
 }
 
