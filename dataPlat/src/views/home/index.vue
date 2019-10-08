@@ -8,15 +8,19 @@
                <img :src="item.img" style="width:100%;height:100%;"/>
                <p class="item-title" :title="item.title">{{item.title}}</p>
              </div>
-             <p class="editor" v-show="item.isEdit">
+             <p class="editor" >
                <img src="../../assets/images/bianji@2x.png" alt="编辑" @click="editItem(item.id,$event)">
-               <img src="../../assets/images/shanchu@2x.png" alt="删除" @click="deleteItem(item.id)">
+               <img src="../../assets/images/shanchu@2x.png" alt="删除" @click="deleteItem(item.id,$event)" v-show="item.isEdit">
              </p>
            </div>
          </div>
        <div class="box-wrapper">
-         <div class="box-item add-item">
-           <a-icon type="plus"  @click="addItem"/>
+         <div class="box-item ">
+           <div class="add-item">
+             <a-icon type="plus"  @click="addItem" class="icon"/>
+             <p>创建新项目</p>
+           </div>
+           <p class="editor"></p>
          </div>
        </div>
 
@@ -137,17 +141,39 @@
         editItem(id,e){
           //编辑信息 flag=1
           e.stopPropagation();
+          this.dataflag=1;
+
          this.$refs.projectform.visible=true;
-         this.dataflag=1;
+
 
         },
-        deleteItem(id){
+        deleteItem(id,e){
+         e.stopPropagation();
+         let self=this;
+          this.$confirm({
+            title: '删除项目',
+            content: '确认删除此项目？',
+            okText: '确认',
+            cancelText: '取消',
+            okButtonProps: {
+              props: {type:'danger'},
+            },
+            onOk(){
+                  //删除信息操作
+              self.$message.success('操作成功', 10)
+            },
+            onCancel(){
+
+            }
+          });
 
         },
         addItem(){
           //添加信息 flag=2
-          this.$refs.projectform.visible=true;
           this.dataflag=2;
+          this.$refs.projectform.visible=true;
+          console.log(this.dataflag)
+
         }
       },
       mounted() {
@@ -234,9 +260,15 @@
     height:14px;
     cursor:pointer;
   }
-  .box-item.add-item{
-    line-height:180px;
-    font-size:3rem;
+  .box-item .add-item{
+    width: 100%;
+    height: 14rem;
+    background-color: #ebebeb;
+    border-radius: 4px;
+    padding-top:3rem;
+  }
+  .add-item .icon{
+    font-size:3.2rem;
   }
   .slide-item{
     color:dodgerblue;

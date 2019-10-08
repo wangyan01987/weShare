@@ -2,13 +2,21 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router);
-
+const routerPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error=> error)
+};
 const router= new Router({
   routes: [
     {
       path: '/HelloWorld',
       name: 'HelloWorld',
       component: ()=>import('@/components/HelloWorld')
+    },
+    {
+      path:'/login',
+      name:'login',
+      component:()=>import('@/views/login')
     },
     {
       path:'/',
@@ -20,11 +28,6 @@ const router= new Router({
           path:'home',
           name:'home',
           component:()=>import('@/views/home')
-        },
-        {
-          path:'login',
-          name:'login',
-          component:()=>import('@/views/login')
         },
         {
           path:'personSet',

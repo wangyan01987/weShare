@@ -21,7 +21,7 @@
       </a-menu-item>
     </a-menu>
     <span class="blue" @click="showProjectInfo">查看项目信息</span>
-    <projectform  :dataflag="0" ref="projectform"></projectform>
+    <projectform  :dataflag='dataflag' ref="projectform" ></projectform>
     <router-view></router-view>
   </div>
 </template>
@@ -32,12 +32,21 @@
     data () {
       return {
         current: ['mail'],
+        dataflag:0,
       }
     },
     methods:{
       showProjectInfo(){
         this.$refs.projectform.visible=true;
+      this.$refs.projectform.currentDataflag=0;
       }
+    },
+    mounted(){
+      let that=this;
+      window.addEventListener("popstate", function(e) {
+        console.log('--')
+       that.$router.push({path:'/home'})
+      }, false);
     }
   }
 </script>

@@ -4,26 +4,13 @@
     <a-modal
       :title='title'
       v-model="visible"
-      @ok="hideModal"
       @cancel="cancel"
       okText="确定"
       cancelText="取消"
-       :footer="footer"
-      v-if="dataflag===0"
-    >
-      <span class="blue" @click="dataflag=1">编辑信息</span>
-     <projectinfo ref="projectInfo" :dataflag="dataflag"></projectinfo>
-    </a-modal>
-    <!--编辑-->
-    <a-modal
-      :title='title'
-      v-model="visible"
-      @ok="hideModal"
-      @cancel="cancel"
-      okText="确定"
-      cancelText="取消"
-      v-else>
-      <projectinfo ref="projectInfo" :dataflag="dataflag"></projectinfo>
+      :footer="null"
+     >
+      <span class="blue" @click="currentDataflag=1" v-if="currentDataflag===0">编辑信息</span>
+     <projectinfo ref="projectInfo" :dataflag="currentDataflag"  @cancel="cancel" @save="save"></projectinfo>
     </a-modal>
     <br />
 
@@ -37,18 +24,20 @@
     data() {
       return {
         visible: false,
-        footer:null
+        footer:null,
+        currentDataflag:this.dataflag
+
 
       }
     },
     methods: {
 
-      hideModal() {
-        // this.visible = false;
-        this.$refs.projectInfo.submit();
+      save() {
+        this.visible = false;
+
       },
       cancel(){
-
+            this.visible=false;
       },
       confirm() {
         this.$confirm({
@@ -62,13 +51,23 @@
     computed:{
         title(){
           //查看0，编辑1，新增2，删除3
-          switch (this.dataflag){
+          switch (this.currentDataflag){
             case 0: return '查看项目信息';
             case 1:return '编辑项目信息';
             case 2:return '新建项目信息';
           }
         },
 
+
+    },
+    watch:{
+         dataflag(val){
+             this.currentDataflag=val;
+         }
+    },
+    mounted(){
+       console.log('form')
+      console.log(this.dataflag)
     }
   }
 </script>

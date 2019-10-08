@@ -1,19 +1,20 @@
 <template>
+<div>
   <a-form :form="formData">
     <a-form-item label="项目名称" :label-col="formItemLayout.labelCol"
                  :wrapper-col="formItemLayout.wrapperCol">
       <a-input placeholder="请输入项目名称，支持中英文字符，字数为6-20" v-decorator="[ 'name',
             {rules: [{message:'项目名称'},{ required: true, message: '项目名称不可为空' },{validator:checkName}]}
-        ]" v-if="dataflag===1||dataflag===2" ></a-input>
-      <span v-else>{{obj.name}}</span>
+        ]" v-show="dataflag===1||dataflag===2" ></a-input>
+      <span v-show="dataflag===0">{{obj.name}}</span>
     </a-form-item>
     <a-form-item label="项目简称" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
-      <a-input placeholder="请输入项目名称，支持中英文字符，字数为6-20" v-decorator="['nickname', {rules: [{validator:checkName}]} ]" v-if="dataflag===1||dataflag===2"></a-input>
-      <span v-else>{{obj.nickname}}</span>
+      <a-input placeholder="请输入项目名称，支持中英文字符，字数为6-20" v-decorator="['nickname', {rules: [{validator:checkName}]} ]" v-show="dataflag===1||dataflag===2"></a-input>
+      <span v-show="dataflag===0">{{obj.nickname}}</span>
     </a-form-item>
     <a-form-item :label-col="formItemLayout.labelCol":wrapper-col="formItemLayout.wrapperCol" label="项目编号">
-      <a-input v-decorator="[ 'projectNumber', {rules:[{validator:checkNumber}]}]" placeholder="请输入项目名称，支持中英文字符，字数为6-20" v-if="dataflag===1||dataflag===2"/>
-      <span v-else>{{obj.projectNumber}}</span>
+      <a-input v-decorator="[ 'projectNumber', {rules:[{validator:checkNumber}]}]" placeholder="请输入项目名称，支持中英文字符，字数为6-20" v-show="dataflag===1||dataflag===2"/>
+      <span v-show="dataflag===0">{{obj.projectNumber}}</span>
     </a-form-item>
     <a-form-item label="项目类型" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
       <a-select @change="handleChange" placeholder="请选择项目类型" v-decorator="[ 'type']">
@@ -28,7 +29,6 @@
             <a-select @change="handleChange" placeholder="省市" v-decorator="[ 'province']">
               <a-select-option v-for="item in arr" :key="item.value" :value="item.value">{{item.label}}</a-select-option>
             </a-select>
-
           </a-form-item>
         </a-col>
         <a-col :span="8">
@@ -50,23 +50,23 @@
       </a-row>
       <a-form-item class="special">
         <a-input placeholder="请输入详细地址，支持中英文字符，字数为6-20"  v-decorator="['address', {rules: [{validator:checkName}]}]"  v-if="dataflag===1||dataflag===2"></a-input>
-          <span v-else>{{obj.address}}</span>
+        <span v-else>{{obj.address}}</span>
       </a-form-item>
     </a-form-item>
     <a-form-item label="项目公司" :label-col="formItemLayout.labelCol":wrapper-col="formItemLayout.wrapperCol">
       <a-input placeholder="请输入项目公司，支持中英文字符，字数为6-20" v-decorator="['company',{rules: [{validator:checkName}]}]" v-if="dataflag===1||dataflag===2"></a-input>
-        <span v-else>{{obj.company}}</span>
+      <span v-else>{{obj.company}}</span>
     </a-form-item>
     <a-form-item label="建设单位" :label-col="formItemLayout.labelCol":wrapper-col="formItemLayout.wrapperCol">
       <a-input placeholder="请输入建设单位，支持中英文字符，字数为6-20" v-decorator="[
           'developer',
             {rules: [{validator:checkName}]}
-        ]" v-if="dataflag===1||dataflag===2"></a-input>
-        <span v-else>{{obj.developer}}</span>
+        ]" v-show="dataflag===1||dataflag===2"></a-input>
+      <span v-show="dataflag===0">{{obj.developer}}</span>
     </a-form-item>
     <a-form-item v-bind="formItemLayout"
-      label="立项时间"><a-date-picker v-decorator="['date-picker']" placeholder="请选择日期" v-if="dataflag===1"/>
-      <span v-else>{{obj.createTime}}</span>
+                 label="立项时间"><a-date-picker v-decorator="['date-picker']" placeholder="请选择日期" v-show="dataflag===1||dataflag===2"/>
+      <span v-show="dataflag===0">{{obj.createTime}}</span>
     </a-form-item>
     <a-form-item label="栋数" :label-col="formItemLayout.labelCol"
                  :wrapper-col="formItemLayout.wrapperCol" v-if="dataflag===1">
@@ -75,8 +75,8 @@
 
     </a-form-item>
     <a-form-item label="项目简介" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
-      <a-textarea v-if="dataflag===1" placeholder=" 请输入项目简介，支持中英文字符" :autosize="{ minRows: 3, maxRows: 6 }"v-decorator="[ 'projectInfo',{rules: [{validator:checkName}]}]"/>
-         <span v-else>{{obj.projectInfo}}</span>
+      <a-textarea v-show="dataflag===1||2" placeholder=" 请输入项目简介，支持中英文字符" :autosize="{ minRows: 3, maxRows: 6 }"v-decorator="[ 'projectInfo',{rules: [{validator:checkName}]}]"/>
+      <span v-show="dataflag===0">{{obj.projectInfo}}</span>
     </a-form-item>
     <a-form-item label="合同名称" :label-col="formItemLayout.labelCol"
                  :wrapper-col="formItemLayout.wrapperCol">
@@ -84,9 +84,14 @@
           'assign',
             {rules: [{validator:checkName}]}
         ]" v-if="dataflag===1||dataflag===2"></a-input>
-       <span v-else>{{obj.assign}}</span>
+      <span v-else>{{obj.assign}}</span>
     </a-form-item>
   </a-form>
+  <div class="btn-box" v-if="dataflag!==0">
+    <a-button  @click="cancel">取消</a-button>
+    <a-button type="primary" style="margin-left:1rem" @click="submit">确定</a-button>
+  </div>
+</div>
 </template>
 
 <script>
@@ -151,33 +156,52 @@
             return;
           }
           this.$message.success('编辑成功！', 10);
+          this.$emit('save')
         })
+      },
+      cancel(){
+           this.$emit('cancel');
       },
       handleChange(val) {
         console.log(val)
       },
       setMsg(obj) {
-        if (obj instanceof Object) {
-          for (var item in obj) {
-            this.formData.setFieldsValue({item: obj[item]});
-          }
+        this.obj=Object.assign({},obj);
+        if (obj instanceof Object&&this.dataflag!==0) {
+          this.formData.setFieldsValue(obj);
+
         }
 
-      }
+      },
+    },
+    watch:{
+        dataflag(val){
+
+          var obj = {
+            name: 'lalallalla',
+            nickname: 'ahahhaaha',
+            buildingNumber: 5,
+
+          };
+          var that=this;
+            if(val===1) {
+              //  setTimeout(function(){
+              //    that.setMsg(obj)
+              //  },50);
+            }
+        }
     },
     mounted() {
-      console.log('------------出现')
+
       var obj = {
         name: 'lalallalla',
         nickname: 'ahahhaaha',
         buildingNumber: 5,
 
       };
-      this.obj=Object.assign({},obj);
-      if (obj instanceof Object&&this.dataflag!==0) {
-        this.formData.setFieldsValue(obj);
-
-      }
+   if(this.dataflag===1||0){
+     this.setMsg(obj);
+   }
 
     }
   }
@@ -205,5 +229,9 @@
 
   .special.ant-form-item {
     margin-bottom: 0;
+  }
+  .btn-box{
+    display:flex;
+   justify-content:flex-end;
   }
 </style>

@@ -6,7 +6,7 @@
 }
 
 html{
-  font-size:68.125%;
+  font-size:62.5%;
 }
 body{
   font-size:14px;
@@ -23,6 +23,18 @@ body{
 .ant-menu-horizontal{
   padding-left:5.4rem;
 }
-.ant-layout-content{
+.sub-container{
+  text-align:left;
+}
+.box-body .ant-tabs-bar{
+  border:none;
+}
+.login-box .ant-tabs-nav-wrap{
+  margin-bottom:4rem ;
+}
+.login-box .ant-input-affix-wrapper{
+  height:4rem;
+}
+.register .ant-form-item-control-wrapper{
   text-align:left;
 }
