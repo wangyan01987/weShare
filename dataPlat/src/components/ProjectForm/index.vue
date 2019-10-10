@@ -2,6 +2,7 @@
   <div class="form-container">
     <!--查看-->
     <a-modal
+      :destroyOnClose=true
       :title='title'
       v-model="visible"
       @cancel="cancel"

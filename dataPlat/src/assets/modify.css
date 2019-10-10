@@ -17,8 +17,8 @@ body{
 .ant-modal{
   top:20px;
   padding-bottom:0;
-  height:95%;
-  overflow: auto;
+  max-height:95%;
+  overflow-y:auto;
 }
 .ant-menu-horizontal{
   padding-left:5.4rem;
@@ -38,3 +38,27 @@ body{
 .register .ant-form-item-control-wrapper{
   text-align:left;
 }
+.ant-tabs-bar.ant-tabs-top-bar{
+  background-color:#fff;
+  text-align: left;
+  padding-left:70px;
+}
+.main-container{
+  height:100%;
+}
+.ant-layout{
+  height:100%;
+}
+.ant-layout-content>div{
+  background-color:#F2F3F5;
+}
+.top-header{
+  border-bottom: 1px solid #eee;
+}
+.ant-table-pagination.ant-pagination{
+  float:none;
+  text-align: center;
+}
+/*.ant-modal-body{*/
+  /*padding:0;*/
+/*}*/

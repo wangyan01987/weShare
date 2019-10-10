@@ -31,7 +31,7 @@
     components:{projectform},
     data () {
       return {
-        current: ['mail'],
+        current: ['building'],
         dataflag:0,
       }
     },

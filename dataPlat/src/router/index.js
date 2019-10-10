@@ -9,11 +9,6 @@ Router.prototype.push = function push(location) {
 const router= new Router({
   routes: [
     {
-      path: '/HelloWorld',
-      name: 'HelloWorld',
-      component: ()=>import('@/components/HelloWorld')
-    },
-    {
       path:'/login',
       name:'login',
       component:()=>import('@/views/login')

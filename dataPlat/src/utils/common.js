@@ -161,7 +161,7 @@ export function isName(val){
 //项目编号
 export function isNum(val){
   let str=val.trim();
-  let reg=/^[\w+]{6,20}$/;
+  let reg=/^[\w]{6,20}$/;
   return reg.test(str);
 }
 

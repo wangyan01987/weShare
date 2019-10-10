@@ -8,6 +8,8 @@ import 'ant-design-vue/dist/antd.css'
 import 'babel-polyfill';
 import  store from './store'
 import './assets/modify.css'
+import  $ajax from './ajax/ajax.js'
+Vue.prototype.$ajax=$ajax;
 Vue.config.productionTip = false;
 Vue.use(ant);
 /* eslint-disable no-new */

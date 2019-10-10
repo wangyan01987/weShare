@@ -1,11 +1,11 @@
 <template>
 <div class="main-container">
-
   <a-layout>
     <a-layout-header>
       <div class="top-header">
         <div><img :src='headerImg'  style="width:32px"><a-icon   type="right" />
-          <top-menu :menuList="menuList"></top-menu>
+          <top-menu :menuList="menuList" v-if="projectName"></top-menu>
+          <span>{{topTitle}}</span>
         </div>
         <div>
           <a-input-search
@@ -18,19 +18,16 @@
           <img src="../../assets/images/youxiang@2x.png">
           <img src="../../assets/images/help@2x.png">
           <a-dropdown>
-
-
       <a class="ant-dropdown-link" href="#">
         <span class="userIcon">{{userIcon}}</span>
       </a>
       <a-menu slot="overlay">
         <a-menu-item>
-          <a href="javascript:;">账户设置</a>
+          <router-link to="/personSet">账户设置</router-link>
         </a-menu-item>
         <a-menu-item>
           <a href="javascript:;">退出登录</a>
         </a-menu-item>
-
       </a-menu>
 
   </a-dropdown>
@@ -58,7 +55,8 @@
             },{
               name:'2号项目',
               id:'002'
-            }]
+            }],
+            topTitle:''
 
           }
       },
@@ -77,14 +75,21 @@
         },
         headerImg(){
             if(this.$store.state.inProject){
-              return  require('../../assets/images/zhuye@2x.png');
+
+              return require('../../assets/images/zhuye-hui@2x.png');
 
             }
             else{
-
-              return require('../../assets/images/zhuye-hui@2x.png');
+               return  require('../../assets/images/zhuye@2x.png');
+              //return require('../../assets/images/zhuye-hui@2x.png');
             }
         }
+      },
+      watch:{
+          '$router':function(to,from){
+            console.log(to)
+          }
+
       },
       methods:{
           onSearch(){
@@ -92,7 +97,10 @@
           },
       },
       mounted(){
-
+        let a=this.$route.name;
+        if(a==='personSet'){
+          this.topTitle='个人信息设置';
+        }
       }
     }
 </script>

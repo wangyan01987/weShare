@@ -1,22 +1,25 @@
 
 <template>
   <div>
-    <a-tabs defaultActiveKey="1" @change="callback">
-      <a-tab-pane tab="Tab 1" key="1">Content of Tab Pane 1</a-tab-pane>
-      <a-tab-pane tab="Tab 2" key="2" forceRender>Content of Tab Pane 2</a-tab-pane>
-      <a-tab-pane tab="Tab 3" key="3">Content of Tab Pane 3</a-tab-pane>
+    <a-tabs defaultActiveKey="1" @change="callback" tabPosition="top">
+      <a-tab-pane tab="个人信息" key="1"><person-info></person-info></a-tab-pane>
+      <a-tab-pane tab="修改密码" key="2"><psd-info></psd-info></a-tab-pane>
+
     </a-tabs>
   </div>
 </template>
 <script>
+  import PersonInfo from '@/components/PersonSet/PersonInfo'
+  import PsdInfo from '@/components/PersonSet/PsdInfo'
   export default {
+    components:{PersonInfo,PsdInfo},
     data () {
       return {
       }
     },
     methods: {
       callback (key) {
-        console.log(key)
+
       },
     },
   }

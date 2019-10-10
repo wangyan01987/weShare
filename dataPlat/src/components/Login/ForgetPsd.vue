@@ -2,14 +2,6 @@
   <div class="register">
     <a-form :form="formData">
       <a-form-item >
-        <a-input placeholder="请输入姓名"   v-decorator="[
-           'name',
-            {rules: [{max:20,message:'姓名最大长度为20个字符'},{required:true,message:'请输入姓名'}]}
-        ]">
-          <img slot="prefix" src="../../assets/images/name@2x.png" style="width:14px"/>
-        </a-input>
-      </a-form-item>
-      <a-form-item >
         <a-input placeholder="请输入手机号"   v-decorator="[
            'account',
             {rules: [{validator:checkAccount}]}
@@ -47,7 +39,7 @@
         >
           <img slot="prefix" src="../../assets/images/mima@2x.png" style="width:14px"/>
         </a-input>
-        <p><a-icon type="exclamation-circle" style="color:#1890ff" theme="filled" />6-16位字母、数字或符号组成，区分大小写</p>
+        <p><a-icon type="exclamation-circle"  theme='filled' style="color:#1890ff" />6-16位字母、数字或符号组成，区分大小写</p>
       </a-form-item>
       <a-form-item>
         <a-input
@@ -64,45 +56,9 @@
         >
           <img slot="prefix" src="../../assets/images/mima@2x.png" style="width:14px"/>
         </a-input>
-
-      </a-form-item>
-      <a-form-item>
-        <a-auto-complete
-          v-decorator="[
-          'email',
-          {rules: [{
-              validator: validEmail,
-            }]}
-        ]"
-
-          @change="handleEmailChange"
-        >
-          <template slot="dataSource">
-            <a-select-option
-              v-for="email in autoCompleteResult"
-              :key="email"
-            >
-              {{ email }}
-            </a-select-option>
-          </template>
-
-            <a-input placeholder="请输入邮箱地址">
-              <img slot="prefix" src="../../assets/images/youxiang@2x.png" style="width:14px"/>
-            </a-input>
-        </a-auto-complete>
       </a-form-item>
       <a-form-item >
-        <a-checkbox v-decorator="['agreement', {valuePropName: 'checked',rules: [{
-              validator: checkAgreeMent,
-            }],}]">
-          已阅读并同意
-          <a href="/static" target="_blank">
-            PST及平台服务协议
-          </a>
-        </a-checkbox>
-      </a-form-item>
-      <a-form-item >
-        <a-button  type="primary" style="width:100%" size="large" @click="handleSubmit" >注册</a-button>
+        <a-button  type="primary" style="width:100%" size="large" @click="handleSubmit" >提交</a-button>
       </a-form-item>
     </a-form>
 
@@ -110,9 +66,9 @@
 </template>
 
 <script>
-  import {isOnlyMobile,isPassword, email} from '@/utils/common.js'
+  import {isOnlyMobile,isPassword} from '@/utils/common.js'
   export default {
-    name: 'register',
+    name: 'ForgetPsd',
     data () {
       return {
         codeText:'获取验证码',
@@ -120,7 +76,7 @@
         btnabled:true,
         btnType:'default',
         autoCompleteResult:'',
-        }
+      }
 
     },
     components:{
@@ -151,21 +107,7 @@
         }
 
       },
-      validEmail(rule, value, callback){
-        if(value&&!email(value)){
-          callback('邮箱格式不正确');
-        }else{
-          callback();
-        }
-      },
-      checkAgreeMent(rule, value, callback){
-            if(value){
-              callback();
-            }
-            else{
-              callback('请勾选“已阅读并同意PST及平台服务协议”');
-            }
-      },
+
       handleSubmit  (e) {
         this.formData.validateFields((err, fieldsValue) => {
           if (err) {
@@ -194,18 +136,6 @@
           }else{
             callback();
             this.initData();
-          }
-        }
-      },
-      checkName(rule, value, callback){
-        if(!value){
-          callback('请输入姓名')
-        }
-        else {
-          if(!isOnlyMobile(value)){
-            callback('姓名输入格式不正确')
-          }else{
-            callback();
           }
         }
       },
@@ -238,7 +168,6 @@
             this.formData.setFieldsValue({item:obj[item]});
           }
         }
-
       },
       compareToFirstPassword  (rule, value, callback) {
         const form = this.formData;

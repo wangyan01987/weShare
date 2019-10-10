@@ -21,8 +21,7 @@
         <a-select-option v-for="item in arr" :key="item.value" :value="item.value">{{item.label}}</a-select-option>
       </a-select>
     </a-form-item>
-    <a-form-item label="项目所在地" :label-col="formItemLayout.labelCol"
-                 :wrapper-col="formItemLayout.wrapperCol">
+    <a-form-item label="项目所在地" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
       <a-row :gutter="4">
         <a-col :span="8">
           <a-form-item>
@@ -68,11 +67,8 @@
                  label="立项时间"><a-date-picker v-decorator="['date-picker']" placeholder="请选择日期" v-show="dataflag===1||dataflag===2"/>
       <span v-show="dataflag===0">{{obj.createTime}}</span>
     </a-form-item>
-    <a-form-item label="栋数" :label-col="formItemLayout.labelCol"
-                 :wrapper-col="formItemLayout.wrapperCol" v-if="dataflag===1">
-      <a-input v-decorator="[
-           'buildingNumber' ]" disabled></a-input>
-
+    <a-form-item label="栋数" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol" v-if="dataflag===1">
+      <a-input v-decorator="[ 'buildingNumber' ]" disabled></a-input>
     </a-form-item>
     <a-form-item label="项目简介" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol">
       <a-textarea v-show="dataflag===1||2" placeholder=" 请输入项目简介，支持中英文字符" :autosize="{ minRows: 3, maxRows: 6 }"v-decorator="[ 'projectInfo',{rules: [{validator:checkName}]}]"/>

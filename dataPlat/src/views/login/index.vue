@@ -4,11 +4,11 @@
      <p class="logo">平行数据平台</p>
       <p class="action"><span>客户端下载</span>|<span>关于PST</span>|<span>联系我们</span></p>
     </div>
+   <p class="markTitle">为建筑产业提供不断优化的数据和算法服务</p>
    <div class="box-body">
         <div class="login-box">
           <a-tabs defaultActiveKey="1" @change="callback">
             <a-tab-pane tab="登录" key="1">
-
               <login v-show="loginType==='001'"></login>
               <loginmobile v-show="loginType==='002'"></loginmobile>
             </a-tab-pane>
@@ -22,6 +22,16 @@
           </div>
         </div>
    </div>
+   <a-modal
+     title="重置密码"
+     v-model="visible"
+     :footer='null'
+     style="top: 150px;"
+     width="444px"
+     :destroyOnClose=true
+   >
+     <forgetpsd></forgetpsd>
+   </a-modal>
    <div class="box-foot">
      <p>
        copyright@2019平行系统（北京）信息技术有限公司
@@ -33,20 +43,22 @@
 <script>
   import login from '@/components/Login'
   import register from '@/components/Register'
+  import forgetpsd from '@/components/Login/ForgetPsd'
   import loginmobile from  '@/components/Login/Login-phone'
     export default {
         name: "index",
-      components:{login ,register,loginmobile},
+      components:{login ,register,loginmobile,forgetpsd},
       data(){
             return{
               //001  账号登陆，默认
               //002  快速登陆
               //000 注册
-              loginType:'001'
+              loginType:'001',
+              visible:false
             }
       },
       mounted(){
-        //  this.$store.commit('setLogin',true);
+         this.$store.commit('setLogin',true);
           console.log(this.$store.state.isLogin)
       },
       methods:{
@@ -58,8 +70,8 @@
              }
           },
         forgetPsd(){
-
-        },
+              this.visible=true;
+             },
         loginMobile(){
            this.loginType='002'
         },
@@ -147,5 +159,16 @@
   }
   .action-box span{
     cursor:pointer;
+  }
+  .markTitle{
+    position:absolute;
+    left:16rem;
+    bottom: 9rem;
+    font-family: PingFangSC-Semibold;
+    font-size: 24px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: rgba(255, 255, 255, 0.45);
   }
 </style>

@@ -6,7 +6,7 @@
            'name',
             {rules: [{validator:checkName}]}
         ]">
-          <a-icon type="mobile"  slot="prefix"/>
+          <img slot="prefix" src="../../assets/images/name@2x.png" style="width:14px"/>
         </a-input>
       </a-form-item>
       <a-form-item >
@@ -14,7 +14,7 @@
            'name',
             {rules: [{validator:checkName}]}
         ]">
-          <a-icon type="mobile"  slot="prefix"/>
+          <img slot="prefix" src="../../assets/images/iphone@2x.png" style="width:14px"/>
         </a-input>
       </a-form-item>
 
@@ -25,7 +25,7 @@
           'assignCode',
             {rules: [{validator:assignCode}]}
         ]">
-              <a-icon type="safety"  slot="prefix" />
+              <img slot="prefix" src="../../assets/images/yanzh@2x.png" style="width:14px"/>
             </a-input>
           </a-col>
           <a-col :span="8">
@@ -47,7 +47,7 @@
         ]"
           type="password"
         >
-          <a-icon type="lock"  slot="prefix"/>
+          <img slot="prefix" src="../../assets/images/mima@2x.png" style="width:14px"/>
         </a-input>
 
       </a-form-item>
@@ -119,7 +119,8 @@
             return;
           };
           //提交表单
-          console.log(fieldsValue)
+          console.log(fieldsValue);
+          // this.$ajax('')
 
         })
       },

@@ -6,10 +6,9 @@
            'name',
             {rules: [{validator:checkName}]}
         ]">
-          <a-icon type="mobile"  slot="prefix"/>
+          <img slot="prefix" src="../../assets/images/iphone@2x.png" style="width:14px"/>
         </a-input>
       </a-form-item>
-
       <a-form-item>
         <a-row :gutter="8">
           <a-col :span="16">
@@ -17,7 +16,7 @@
           'assignCode',
             {rules: [{validator:assignCode}]}
         ]">
-              <a-icon type="safety"  slot="prefix" />
+              <img slot="prefix" src="../../assets/images/yanzh@2x.png" style="width:14px"/>
             </a-input>
           </a-col>
           <a-col :span="8">
@@ -69,19 +68,23 @@
         //获取验证码
          //发送请求
         const TIME_COUNT = 60;
+        console.log(process.env.Base_URL)
+        this.$ajax('Order/InsertOrder','POST',{"phoneNumber":"18535535332", "type":"register"}).then(res=>{
+          console.log(res)
+        });
         if (!this.timer) {
           this.count = TIME_COUNT;
           this.timer = setInterval(() => {
             if (this.count > 0 && this.count <= TIME_COUNT) {
               this.count--;
-              this.codeText = `剩余${this.count}s`;
+              this.codeText = `重新获取${this.count}s`;
               this.btnabled = true;
               this.btnType = 'default';
             } else {
               this.initData()
             }
           }, 1000)
-        }
+        };
 
       },
 
