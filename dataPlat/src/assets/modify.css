@@ -59,6 +59,12 @@ body{
   float:none;
   text-align: center;
 }
+.ant-form-item{
+  margin-bottom: 10px;
+}
+.buildingTable .ant-table-placeholder{
+display:none
+}
 /*.ant-modal-body{*/
   /*padding:0;*/
 /*}*/

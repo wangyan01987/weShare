@@ -26,7 +26,7 @@
           <router-link to="/personSet">账户设置</router-link>
         </a-menu-item>
         <a-menu-item>
-          <a href="javascript:;">退出登录</a>
+          <router-link to="/login">退出登录</router-link>
         </a-menu-item>
       </a-menu>
 

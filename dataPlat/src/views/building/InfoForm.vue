@@ -3,7 +3,8 @@
       :title=title
       :visible="visible"
       :confirmLoading="confirmLoading"
-      @cancel="handleCancel">
+      @cancel="handleCancel"
+      :destroyOnClose=true>
       <template slot="footer" >
         <a-button type="default"  v-show="dataflag!=='000'" @click="handleCancel">取消</a-button>
         <a-button type="primary" v-show="dataflag!=='000'" @click="handleOk">确定</a-button>

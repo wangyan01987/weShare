@@ -1,7 +1,6 @@
 <template>
-  <a-form
-    :form="form"
-    @submit="handleSubmit"
+  <a-form :form="form"
+
   >
     <a-form-item
       label="楼栋名称"
@@ -22,10 +21,7 @@
       :label-col="formItemLayout.labelCol"
       :wrapper-col="formItemLayout.wrapperCol"
     >
-      <a-input
-        v-if="dataflag!=='000'"
-        v-decorator="[
-          'number',
+      <a-input v-if="dataflag!=='000'" v-decorator="['number',
           {rules: [{ required: true, message: '请输入楼栋号' },{pattern:/^[\w]+$/,message:'楼栋号输入格式不正确'}]}
         ]"
         placeholder="请输入楼栋号"
@@ -33,14 +29,8 @@
       </a-input>
       <span v-else>{{buildingInfo.number}}</span>
     </a-form-item>
-    <a-form-item
-      :label-col="formItemLayout.labelCol"
-      :wrapper-col="formItemLayout.wrapperCol"
-      label="关联栋号"
-    >
-      <a-input-number :min="0" :max="15"  v-if="associateNumEdit&&dataflag!=='000'" :precision="1"  v-decorator="[
-          'associateNum',
-          {rules: [{}]}
+    <a-form-item :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol" label="关联栋号">
+      <a-input-number :min="0" :max="15"  v-if="associateNumEdit&&dataflag!=='000'" :precision="1"  v-decorator="[ 'associateNum',{rules: [{}]}
         ]" />
       <span v-else>{{buildingInfo.associateNum}}</span>
       <a-icon type="plus-circle" @click="associateNumEdit=true" v-if="dataflag!=='000'" />
@@ -49,9 +39,7 @@
       label="建筑层数"
       :label-col="formItemLayout.labelCol"
       :wrapper-col="formItemLayout.wrapperCol">
-      <a-input-number :min="0" :max="15"  v-decorator="[
-          'floor',
-        ]" v-if="dataflag!=='000' "/>
+      <a-input-number :min="0" :max="15"  v-decorator="['floor']" v-if="dataflag!=='000' "/>
       <span v-else>{{buildingInfo.floor}}</span>
     </a-form-item>
     <a-form-item
@@ -112,12 +100,12 @@
       <span v-else>{{buildingInfo.addition}}</span>
     </a-form-item>
     <p>构建类型</p>
-    <a-table :columns="columns" :dataSource="dataSource" :rowKey=getKey :pagination=false  >
+    <a-table :columns="columns" :dataSource="dataSource" :rowKey=getKey :pagination=false :locale="{emptyText:''}"  class="buildingTable">
       <template slot="numberArrange" slot-scope="text, record, index">
         <div key="numberArrange">
           <a-input
-            v-if="isEditable"
-            style="margin: -5px 0"
+            v-if="dataflag!=='000'"
+            style="margin: -5px 0 "
             :value="text"
             @change="e => handleChange(e.target.value, record.index,'numberArrange')"
           />
@@ -125,9 +113,9 @@
         </div>
       </template>
       <template slot="buildingType" slot-scope="text, record, index">
-        <div key="buildingType">
+        <div key="buildingType" >
           <a-select
-            v-if="isEditable"
+            v-if="dataflag!=='000'"
             :value="text"
             style="margin: -5px 0"
             @change="value=> handleSelectChange(value,record.index,'buildingType')"
@@ -142,11 +130,23 @@
           <template v-else>{{text}}</template>
         </div>
       </template>
-       <span slot="action" slot-scope="record" class="action" v-if="dataflag!=='000'">
-         <img :src="require('../../assets/images/shanchu@2x.png')" alt="" @click="deleteBuilding(record)" style="width:14px;cursor:pointer;"/>
-       </span>
-    </a-table>
+       <template slot="action" slot-scope="text,record" class="action" v-if="dataflag!=='000'">
+         <a-popconfirm
+           v-if="dataSource.length"
+           title="确定删除？"
+           cancelText="取消"
+           okText="确定"
+           okType="danger"
+           @confirm="() => deleteBuilding(record.index)">
+           <a-icon slot="icon" type="question-circle-o" style="color: red" />
+        <img :src="require('../../assets/images/shanchu@2x.png')" alt=""  style="width:14px;cursor:pointer;"/>
+        </a-popconfirm>
 
+       </template>
+    </a-table>
+     <div class="add-action" v-if="dataflag!=='000'">
+      <span @click="addBuilding"><a-icon type="plus-circle" />添加</span>
+     </div>
   </a-form>
 </template>
 
@@ -170,19 +170,26 @@
         { index:3, numberArrange: '——', buildingType:'002' },
       ];
       return {
-        isEditable:true,
         buildingInfo:{},
         formLayout: 'horizontal',
         formItemLayout,
         form: this.$form.createForm(this),
         associateNumEdit:false,
         columns,
-        dataSource:[]
+        dataSource,
+        isSubmit:false
       };
     },
     methods: {
-      deleteBuilding(record) {
-
+      addBuilding(){
+        let a=this.dataSource.length+1;
+        let obj={index:a++
+        };
+        this.dataSource.push(obj)
+      },
+      deleteBuilding(key) {
+        const dataSource = [...this.dataSource];
+      this.dataSource=dataSource.filter(item=>item.index!==key)
       },
       getKey(record) {
         return record.index;
@@ -192,6 +199,8 @@
         this.form.validateFields((err, values) => {
           if (!err) {
             console.log('Received values of form: ', values);
+            this.isSubmit=true;
+            console.log(this.dataSource)
           }
         });
       },
@@ -215,7 +224,30 @@
       },
     },
     mounted(){
-
+      if(this.dataflag==='002'){
+        this.dataSource=[];
+      }
     }
   };
 </script>
+<style scoped>
+.add-action{
+  width: 100%;
+  height: 32px;
+  line-height:32px;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 4px;
+  border: dashed 1px rgba(0, 0, 0, 0.15);
+  margin-top:10px;
+}
+.add-action span{
+  cursor:pointer;
+}
+  p.has-error{
+    margin:0;
+    text-align:center;
+    color: #f5222d;
+    line-height:0;
+  }
+</style>

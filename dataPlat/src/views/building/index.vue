@@ -1,10 +1,10 @@
 <template>
    <div class="box-container">
      <p style="text-align:right;" class="action-btn"><a-button  type="primary" @click="addBuilding">+新建单体</a-button></p>
-     <a-table :columns="columns" :dataSource="dataSource" :rowKey='getKey' :pagination="pagination" :customRow="click" >
-       <span slot="action" slot-scope="record" class="action">
-         <img :src="require('../../assets/images/bianji@2x.png')" alt="" @click="editBuilding(record)"/>
-         <img :src="require('../../assets/images/shanchu@2x.png')" alt="" />
+     <a-table :columns="columns" :dataSource="dataSource" :rowKey='getKey' :pagination="pagination" :customRow="click" :locale="{emptyText: '暂无数据'}">
+       <span slot="action" slot-scope="record,index" class="action">
+         <img :src="require('../../assets/images/bianji@2x.png')" alt="" @click="editBuilding(record,$event,index)"/>
+         <img :src="require('../../assets/images/shanchu@2x.png')" alt="" @click="deleteBuilding($event,record.index,index)" />
        </span>
      </a-table>
      <info-form :dataflag="dataflag" ref="infoform"></info-form>
@@ -18,7 +18,7 @@
        components:{InfoForm},
       data(){
         const columns = [
-          { title: '序号', dataIndex: 'index', key: 'index' },
+          { title: '序号', dataIndex: 'index', key: 'index',customRender:(text, record, index)=>`${index+1}`},
           { title: '楼栋名称', dataIndex: 'name', key: 'name' },
           { title: '楼栋号', dataIndex: 'number', key: 'number' },
           { title: '关联栋号', dataIndex: 'assiocateNum', key: 'assiocateNum' },
@@ -40,27 +40,47 @@
             dataSource,
             columns,
             pagination:{},
-            dataflag:'001'
+            dataflag:'000'
           }
       },
       methods:{
-        editBuilding(record){
-          console.log(record);
+        deleteBuilding(e,index){
+            e.stopPropagation();
+          this.$confirm({
+            title: '删除单体',
+            iconType:'close-circle',
+            content: '确认删除此单体？一旦将单体删除，所有与此单体相关信息、文件将会被清除。',
+            okText: '确认',
+            cancelText: '取消',
+            onOk:()=>{
+              let dataSource=[...this.dataSource];
+              this.dataSource=dataSource.filter(item=>item.index!==index);
+              this.$message.success('删除成功！');
+            }
+          });
+        },
+        editBuilding(record,e){
+          e.stopPropagation();
+          this.$refs.infoform.visible=true;
+          this.dataflag='001';
         },
           addBuilding(){
    this.$refs.infoform.visible=true;
+   this.dataflag='002';
           },
           getKey(record){
                return record.index;
           },
         click(record,index){
+          let self=this;
             return{
               props:{
                     style:'cursor:pointer'
               },
               on:{
                 click(){
-
+                  self.$refs.infoform.visible=true;
+                  self.dataflag='000';
                 }
               }
             }

@@ -76,13 +76,11 @@
             }]}
         ]"
           placeholder="请输入邮箱地址"
-          @change="handleEmailChange"
-        >
+          @change="handleEmailChange">
           <template slot="dataSource">
             <a-select-option
               v-for="email in autoCompleteResult"
-              :key="email"
-            >
+              :key="email">
               {{ email }}
             </a-select-option>
           </template>
