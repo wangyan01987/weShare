@@ -6,7 +6,7 @@
 }
 
 html{
-  font-size:62.5%;
+  font-size:625%;
 }
 body{
   font-size:14px;
@@ -21,7 +21,7 @@ body{
   overflow-y:auto;
 }
 .ant-menu-horizontal{
-  padding-left:5.4rem;
+  padding-left:0.54rem;
 }
 .sub-container{
   text-align:left;
@@ -30,10 +30,10 @@ body{
   border:none;
 }
 .login-box .ant-tabs-nav-wrap{
-  margin-bottom:4rem ;
+  margin-bottom:0.4rem ;
 }
 .login-box .ant-input-affix-wrapper{
-  height:4rem;
+  height:0.4rem;
 }
 .register .ant-form-item-control-wrapper{
   text-align:left;
@@ -64,6 +64,12 @@ body{
 }
 .buildingTable .ant-table-placeholder{
 display:none
+}
+.login-box .ant-tabs-bar{
+  margin-bottom: 0;
+}
+.ant-modal-body .content-box {
+  height:232px;
 }
 /*.ant-modal-body{*/
   /*padding:0;*/

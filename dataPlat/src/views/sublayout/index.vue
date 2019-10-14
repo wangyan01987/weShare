@@ -63,8 +63,8 @@
       color: #1890ff;
     cursor: pointer;
     position:absolute;
-    right:5rem;
+    right:0.05rem;
     top:0;
-    line-height: 4.7rem;
+    line-height: 0.47rem;
   }
 </style>

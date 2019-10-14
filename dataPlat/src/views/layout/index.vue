@@ -110,7 +110,7 @@
     background-color: #ffffff;
     box-shadow: 0px 1px 0px 0px
     #eeeeee;
-    padding:0 1rem;
+    padding:0 0.1rem;
   }
   .top-header{
     width:100%;
@@ -120,7 +120,7 @@
     align-items:center;
   }
   .top-header img{
-    margin-right:2rem;
+    margin-right:0.2rem;
     width:16px;
     cursor:pointer;
   }

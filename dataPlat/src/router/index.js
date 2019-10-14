@@ -14,6 +14,11 @@ const router= new Router({
       component:()=>import('@/views/login')
     },
     {
+      path:'/invite',
+      name:'invite',
+      component:()=>import('@/views/invite')
+    },
+    {
       path:'/',
       name:'layout',
       component:()=>import('@/views/layout'),
@@ -71,7 +76,7 @@ const router= new Router({
     },
     {
       path:'/inviteInProject',
-      name:'/inviteInProject',
+      name:'inviteInProject',
       component:()=>import('@/views/invite')
 
     },

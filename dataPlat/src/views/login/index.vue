@@ -91,28 +91,28 @@
  }
   .box-top{
       display:flex;
-    padding-top:2.2rem;
-    padding-right:7rem;
+    padding-top:0.22rem;
+    padding-right:0.7rem;
     color: #ffffff;
     justify-content: space-between;
     z-index: 1000;
   }
   .logo{
-    width: 19.2rem;
-    line-height: 3.3rem;
+    width: 1.92rem;
+    line-height: 0.33rem;
     font-family: PingFangSC-Semibold;
-    font-size: 2.4rem;
+    font-size: 0.24rem;
     font-weight: normal;
     font-stretch: normal;
     letter-spacing: 0px;
 
   }
   .action{
-    font-size:1.6rem;
-    line-height: 3.3rem;
+    font-size:0.16rem;
+    line-height: 0.33rem;
   }
   .action span{
-    padding:0 1rem;
+    padding:0 0.1rem;
     cursor:pointer;
   }
   .box-body{
@@ -123,20 +123,20 @@
   }
   .login-box{
     position:absolute;
-    top:10.2rem;
-    right:7rem;
-    width: 44.4rem;
+    top:1.02rem;
+    right:0.7rem;
+    width: 4.44rem;
     /*height: 45rem;*/
-    max-height:600px;
+    /*max-height:600px;*/
     overflow: auto;
     background-color: #ffffff;
-    border-radius: 1.2rem;
+    border-radius: 0.12rem;
     padding:25px;
   }
   .box-foot{
     width:100%;
      position:fixed;
-    bottom: 2.4rem;
+    bottom: 0.24rem;
     font-family: PingFangSC-Regular;
     font-size: 14px;
     font-weight: normal;
@@ -162,8 +162,8 @@
   }
   .markTitle{
     position:absolute;
-    left:16rem;
-    bottom: 9rem;
+    left:1.6rem;
+    bottom: 0.9rem;
     font-family: PingFangSC-Semibold;
     font-size: 24px;
     font-weight: normal;

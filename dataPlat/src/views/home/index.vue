@@ -196,7 +196,7 @@
 <style scoped>
     .box-item{
      width:100%;
-      height: 18rem;
+      height: 1.8rem;
       background-color: #fafafa;
       box-shadow: 0 2px 6px 0
       #c8cacc;
@@ -204,7 +204,7 @@
 
     }
     .box-wrapper{
-      width:22rem;
+      width:2.2rem;
       padding-right:20px;
       padding-bottom:20px;
      }
@@ -229,14 +229,14 @@
   .item-img{
 
       width:100%;
-      height: 14rem;
+      height: 1.4rem;
       background-color: rgba(229, 229, 229, 0.64);
       border-radius: 4px;
     position:relative;
 
   }
   .box{
-    padding:0 13rem;
+    padding:0 1.3rem;
     display:flex;
     flex-wrap: wrap;
   }
@@ -244,7 +244,7 @@
   cursor:pointer;
   }
   .editor{
-    height:4rem;
+    height:0.4rem;
     display:flex;
     justify-content: space-between;
     align-items: center;
@@ -262,13 +262,13 @@
   }
   .box-item .add-item{
     width: 100%;
-    height: 14rem;
+    height: 1.4rem;
     background-color: #ebebeb;
     border-radius: 4px;
-    padding-top:3rem;
+    padding-top:0.3rem;
   }
   .add-item .icon{
-    font-size:3.2rem;
+    font-size:0.32rem;
   }
   .slide-item{
     color:dodgerblue;
@@ -279,10 +279,10 @@
     text-align:right;
     margin-top:24px;
     margin-bottom: 24px;
-    padding-right:2.4rem;
+    padding-right:0.24rem;
   }
   .changeItem img{
 cursor:pointer;
-    width:3.2rem;
+    width:0.32rem;
   }
 </style>

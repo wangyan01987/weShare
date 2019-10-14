@@ -121,18 +121,18 @@
 <style scoped>
   .box-container{
     width: 82%;
-    height: 57.7rem;
+    height: 5.77rem;
     background-color: #ffffff;
     border: solid 1px #d9d9d9;
-    margin:2rem auto;
+    margin:0.2rem auto;
   }
   .action-btn{
-    padding:2rem;
+    padding:0.2rem;
   }
   .action img{
     width:14px;
     cursor:pointer;
-    margin-left:1rem;
+    margin-left:0.1rem;
   }
   .userIcon{
     text-align:center;

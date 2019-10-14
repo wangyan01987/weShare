@@ -82,7 +82,7 @@
     color:dodgerblue;
     position:absolute;
     top:0;
-    left:13rem;
+    left:1.3rem;
     line-height:54px;
   }
 </style>

@@ -3,17 +3,16 @@
     <a-form :form="formData">
       <a-form-item >
         <a-input placeholder="请输入姓名"   v-decorator="[
-           'name',
-            {rules: [{max:20,message:'姓名最大长度为20个字符'},{required:true,message:'请输入姓名'}]}
+           'username',
+            {rules: [{max:20,message:'姓名最大长度为20个字符'},{required:true,message:'请输入姓名'}],validateTrigger:['change','blur']}
         ]">
           <img slot="prefix" src="../../assets/images/name@2x.png" style="width:14px"/>
         </a-input>
       </a-form-item>
       <a-form-item >
-        <a-input placeholder="请输入手机号"   v-decorator="[
-           'account',
-            {rules: [{validator:checkAccount}]}
-        ]">
+        <a-input placeholder="请输入手机号"   v-decorator="['phoneNumber',
+            {rules: [{validator:checkAccount}],validateTrigger:['change','blur'],validateFirst:true}
+      ]">
           <img slot="prefix" src="../../assets/images/iphone@2x.png" style="width:14px"/>
         </a-input>
       </a-form-item>
@@ -21,8 +20,8 @@
         <a-row :gutter="8">
           <a-col :span="16">
             <a-input placeholder="请输入验证码" id="success"  v-decorator="[
-          'assignCode',
-            {rules: [{validator:assignCode}]}
+          'code',
+            {rules: [{validator:assignCode}],validateTrigger:['change','blur']}
         ]">
               <img slot="prefix" src="../../assets/images/yanzh@2x.png" style="width:14px"/>
             </a-input>
@@ -58,6 +57,7 @@
             rules: [{
               validator: compareToFirstPassword,
             }],
+            validateTrigger:['change','blur']
           }
         ]"
           type="password"
@@ -72,7 +72,7 @@
           'email',
           {rules: [{
               validator: validEmail,
-            }]}
+            }],validateTrigger:['change','blur']}
         ]"
 
           @change="handleEmailChange"
@@ -80,8 +80,7 @@
           <template slot="dataSource">
             <a-select-option
               v-for="email in autoCompleteResult"
-              :key="email"
-            >
+              :key="email">
               {{ email }}
             </a-select-option>
           </template>
@@ -94,7 +93,7 @@
       <a-form-item >
         <a-checkbox v-decorator="['agreement', {valuePropName: 'checked',rules: [{
               validator: checkAgreeMent,
-            }],}]">
+            }]}]">
           已阅读并同意
           <a href="/static" target="_blank">
             PST及平台服务协议
@@ -105,12 +104,14 @@
         <a-button  type="primary" style="width:100%" size="large" @click="handleSubmit" >注册</a-button>
       </a-form-item>
     </a-form>
-
   </div>
 </template>
 
 <script>
-  import {isOnlyMobile,isPassword, email} from '@/utils/common.js'
+  import {isOnlyMobile,isPassword, email} from '@/utils/common.js';
+  import $ from "jquery"
+
+
   export default {
     name: 'register',
     data () {
@@ -120,6 +121,7 @@
         btnabled:true,
         btnType:'default',
         autoCompleteResult:'',
+        mobile:''
         }
 
     },
@@ -132,9 +134,24 @@
         this.btnabled = false;
         this.btnType='primary'
       },
+      resetData(){
+        this.codeText='获取验证码';
+        this.btnabled = true;
+        this.btnType='default'
+      },
       sendCode(){
         //获取验证码
         //发送请求
+       let mobile= this.formData.getFieldValue('phoneNumber');
+           this.$ajax('sendsms','POST',{type:'register',phoneNumber:mobile}).then(res=>{
+             res=res.data;
+                if(res.code==='001'){
+                  this.$message.success('发送成功');
+                }
+                else{
+                  this.$message.error(res.msg);
+                }
+           });
         const TIME_COUNT = 60;
         if (!this.timer) {
           this.count = TIME_COUNT;
@@ -167,12 +184,24 @@
             }
       },
       handleSubmit  (e) {
-        this.formData.validateFields((err, fieldsValue) => {
+        this.formData.validateFields({firstFields:['phoneNumber']},(err, fieldsValue) => {
           if (err) {
             return;
           };
           //提交表单
-          console.log(fieldsValue)
+         let obj=fieldsValue;
+          delete obj.repassword;
+          delete obj.agreement;
+          this.$ajax('register','POST',obj).then(res=>{
+                  res=res.data;
+                  if(res.code==='001'){
+                    this.$message.success('注册成功，请登录');
+                    this.formData.resetFields();
+                  }
+                  else{
+                    this.$message.error(res.msg)
+                  };
+          })
         })
       },
       handleEmailChange  (value) {
@@ -184,16 +213,18 @@
         }
         this.autoCompleteResult = autoCompleteResult;
       },
+
       checkAccount(rule, value, callback){
+        this.mobile=null;
         if(!value){
-          callback('请输入手机号')
+          callback('请输入手机号');
         }
         else {
           if(!isOnlyMobile(value)){
             callback('手机号输入格式不正确')
           }else{
             callback();
-            this.initData();
+             this.mobile=value;
           }
         }
       },
@@ -246,11 +277,21 @@
           callback('请再次输入密码');
         }
         if (value && value !== form.getFieldValue('password')) {
-          callback('两次输入密码不一致');
+          callback('请输入相同的密码');
         } else {
           callback();
         }
       },
+    },
+    watch:{
+      mobile(val){
+        if(val){
+          this.initData();
+        }
+        else{
+          this.resetData();
+        }
+      }
     },
     mounted(){
 

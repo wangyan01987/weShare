@@ -157,13 +157,13 @@
    width:100%;
    height:100%;
    text-align:left;
-   padding-bottom: 2rem;
+   padding-bottom: 0.2rem;
  }
   .info-item{
-    width:74rem;
+    width:7.4rem;
     background-color: #ffffff;
     border: solid 1px #d9d9d9;
-    margin:2rem auto;
+    margin:0.2rem auto;
     margin-top:0
   }
   .info-item .title{
@@ -172,7 +172,7 @@
     line-height: 53px;
     margin:0;
     border-bottom: 1px solid  rgba(0, 0, 0, 0.1);
-    padding:0 2rem;
+    padding:0 0.2rem;
   }
   .info-box{
 padding-top:24px;
@@ -180,7 +180,7 @@ padding-top:24px;
   }
   .action-box{
     text-align:right;
-    padding:1.6rem 2.4rem;
+    padding:0.16rem 0.24rem;
   }
   .action{
    color: #1890ff;

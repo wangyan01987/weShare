@@ -3,8 +3,8 @@
     <a-form :form="formData">
       <a-form-item >
         <a-input placeholder="请输入手机号"   v-decorator="[
-           'account',
-            {rules: [{validator:checkAccount}]}
+           'phoneNumber',
+            {rules: [{validator:checkAccount}],validateTrigger:['change','blur']}
         ]">
           <img slot="prefix" src="../../assets/images/iphone@2x.png" style="width:14px"/>
         </a-input>
@@ -13,8 +13,8 @@
         <a-row :gutter="8">
           <a-col :span="16">
             <a-input placeholder="请输入验证码" id="success"  v-decorator="[
-          'assignCode',
-            {rules: [{validator:assignCode}]}
+          'code',
+            {rules: [{validator:assignCode}],validateTrigger:['change','blur']}
         ]">
               <img slot="prefix" src="../../assets/images/yanzh@2x.png" style="width:14px"/>
             </a-input>
@@ -33,6 +33,7 @@
             rules: [{
               validator: validPass,
             }],
+            validateTrigger:['change','blur']
           }
         ]"
           type="password"
@@ -50,6 +51,7 @@
             rules: [{
               validator: compareToFirstPassword,
             }],
+            validateTrigger:['change','blur']
           }
         ]"
           type="password"
@@ -76,11 +78,18 @@
         btnabled:true,
         btnType:'default',
         autoCompleteResult:'',
+        mobile:''
       }
 
     },
-    components:{
-
+    watch:{
+      mobile(val){
+        if(val){
+          this.initData()
+        }else{
+          this.resetData();
+        }
+      }
     },
     methods:{
       initData(){
@@ -88,9 +97,24 @@
         this.btnabled = false;
         this.btnType='primary'
       },
+      resetData(){
+        this.codeText='获取验证码';
+        this.btnabled = true;
+        this.btnType='default'
+      },
       sendCode(){
         //获取验证码
         //发送请求
+        let mobile= this.formData.getFieldValue('phoneNumber');
+        this.$ajax('sendsms','POST',{type:'modifyPwd',phoneNumber:mobile}).then(res=>{
+          res=res.data;
+          if(res.code==='001'){
+            this.$message.success('发送成功');
+          }
+          else{
+            this.$message.error(res.msg);
+          }
+        });
         const TIME_COUNT = 60;
         if (!this.timer) {
           this.count = TIME_COUNT;
@@ -114,7 +138,15 @@
             return;
           };
           //提交表单
-          console.log(fieldsValue)
+          this.$ajax('bomextract/user/retrievepwd','POST',fieldsValue).then(res=>{
+                 res=res.data;
+            if(res.code==='001'){
+                this.$message.success('登录成功',5)
+            }
+            else{
+              this.$message.error(res.msg);
+            }
+          })
         })
       },
       handleEmailChange  (value) {
@@ -127,6 +159,7 @@
         this.autoCompleteResult = autoCompleteResult;
       },
       checkAccount(rule, value, callback){
+        this.mobile=null;
         if(!value){
           callback('请输入手机号')
         }
@@ -135,7 +168,8 @@
             callback('手机号输入格式不正确')
           }else{
             callback();
-            this.initData();
+            this.mobile=this.formData.getFieldValue('phoneNumber');
+            console.log(this.mobile)
           }
         }
       },

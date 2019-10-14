@@ -1,6 +1,5 @@
 
 import axios from 'axios'
-import VueAxios from 'vue-axios'
 import { message } from 'ant-design-vue'
 import store from '../store/index.js'
 
@@ -14,8 +13,8 @@ const service = axios.create({
 let errorMessage = true;
 service.interceptors.request.use(
   config => {
-    config.headers['Content-Type'] = 'application/json;';
-
+   //config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+   // config.headers['Content-Type'] = 'application/json;';
     //token
     let token=localStorage.getItem('token');
     if(token){
@@ -28,8 +27,8 @@ service.interceptors.request.use(
       errorMessage = true
     }
 // 设置请求参数
-    // config.data = Qs.stringify(config.data);
-    //config.data = JSON.stringify(config.data);
+   // config.data = Qs.stringify(config.data);
+   // config.data = JSON.stringify(config.data);
     return config
   },
   error => {
@@ -53,7 +52,7 @@ service.interceptors.response.use(response => {
 
   },
   error => {
-   message.error('错误',5);
+   message.error('系统错误，请稍后重试',5);
     return Promise.reject(error)
   }
 );

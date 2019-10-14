@@ -2,18 +2,10 @@
   <div class="register">
     <a-form :form="formData" >
       <a-form-item >
-        <a-input placeholder="请输入姓名"   v-decorator="[
-           'name',
-            {rules: [{validator:checkName}]}
-        ]">
-          <img slot="prefix" src="../../assets/images/name@2x.png" style="width:14px"/>
-        </a-input>
-      </a-form-item>
-      <a-form-item >
         <a-input placeholder="请输入手机号"   v-decorator="[
-           'name',
+           'username',
             {rules: [{validator:checkName}]}
-        ]">
+        ]"  class="test">
           <img slot="prefix" src="../../assets/images/iphone@2x.png" style="width:14px"/>
         </a-input>
       </a-form-item>
@@ -27,10 +19,13 @@
         ]">
               <img slot="prefix" src="../../assets/images/yanzh@2x.png" style="width:14px"/>
             </a-input>
+
           </a-col>
-          <a-col :span="8">
-            <span>验证码</span>
-            <span><a-icon type="redo" @click="updateCode" /></span>
+             <a-col :span="6">
+               <s-identify :identifyCode="identifyCode"></s-identify>
+             </a-col>
+          <a-col :span="2">
+            <span><a-icon type="redo" @click="refreshCode"  /></span>
           </a-col>
         </a-row>
       </a-form-item>
@@ -46,19 +41,21 @@
           }
         ]"
           type="password"
-        >
+        ref="phone" class="test">
           <img slot="prefix" src="../../assets/images/mima@2x.png" style="width:14px"/>
         </a-input>
 
       </a-form-item>
       <a-button @click='submit' type="primary" style="width:100%" size="large">登录</a-button>
-
     </a-form>
+
 
   </div>
 </template>
 
 <script>
+  import $ from "jquery"
+  import SIdentify from '@/components/identify'
   import {isOnlyMobile} from '@/utils/common.js'
   export default {
     name: 'HelloWorld',
@@ -71,17 +68,27 @@
       return {
         formTailLayout,
         formData:this.$form.createForm(this),
-        arr:[1,2,3]
+        identifyCodes: '1234567890ABCDEFJKhfhg',
+        identifyCode:''
 
       }
 
     },
     components:{
-
+      SIdentify
     },
     methods:{
-      updateCode(){
-
+      randomNum (min, max) {
+        return Math.floor(Math.random() * (max - min) + min)
+      },
+      refreshCode () {
+        this.identifyCode = ''
+        this.makeCode(this.identifyCodes, 4)
+      },
+      makeCode (o, l) {
+        for (let i = 0; i < l; i++) {
+          this.identifyCode += this.identifyCodes[this.randomNum(0, this.identifyCodes.length)]
+        }
       },
 
       checkName(rule, value, callback){
@@ -101,6 +108,9 @@
           callback('请输入验证码');
           //验证码验证
         }
+        else if(value!==this.identifyCode.toLowerCase()){
+          callback('验证码不正确');
+        }
         else {
           callback();
         }
@@ -115,13 +125,34 @@
       },
       submit(){
         this.formData.validateFields((err, fieldsValue) => {
-          if (err) {
-            return;
-          };
+          // if (err) {
+          //   return;
+          // };
           //提交表单
-          console.log(fieldsValue);
-          // this.$ajax('')
-
+          let obj=fieldsValue;
+           delete obj.assignCode;
+          let form=new FormData();
+          form.append('username', obj['username']);
+          form.append('password', obj['password']);
+          $.ajax({
+            type: 'POST',
+            url: "http://pstbj.com:6041/loginbypwd",
+            data: form,
+            processData: false,
+            success: function(res){
+                     res=res.data;
+                    if(res.code==='001'){
+                         this.$message.success('登录成功',5);
+                    }
+                    else{
+                      this.$message.error(res.msg,5);
+                      document.getElementsByClassName('test')[0].style.cssText='borderColor:red'
+                    }
+            },
+            failure:function(){
+              this.$message.error('系统错误',5);
+            }
+          });
         })
       },
       handleChange(val){
@@ -137,14 +168,8 @@
       }
     },
     mounted(){
-      // var obj={
-      //   name:'lalallalla',
-      //   nickname:'ahahhaaha',
-      // };
-      // if(obj instanceof Object){
-      //   this.formData.setFieldsValue(obj);
-      //
-      // }
+      this.identifyCode = ''
+      this.makeCode(this.identifyCodes, 4)
 
     }
   }
